@@ -1,0 +1,48 @@
+<%- include("header") -%>
+<!-- <p><%= roomId %></p> -->
+
+<div class="main">
+  <div class="left_section">
+    <div class="main_videos">
+      <div id ="video-wrapper">
+
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="control_block">
+        <div class="control-button-block">
+          <div onclick="muteUnmute()" class="control-button mute-button">
+            <i class="fas fa-microphone"></i>
+            <span>Mute</span>
+          </div>
+        </div>
+        <div class="control-button-block">
+          <div onclick = "playOrUnplayVideo()" class="control-button video-button">
+            <i class="fas fa-video"></i>
+            <span>Stop Video</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="right_section">
+    <div class="header">
+      <i class="fas fa-comment"></i>
+      <h6>Chat</h6>
+    </div>
+    <div class="chat-window">
+      <ul class = "messages">
+
+      </ul>
+    </div>
+    <div class="message-container">
+      <input id = "chat_message" type="text" placeholder="Type message here...">
+    </div>
+  </div>
+
+</div>
+<script src="script.js" type="text/javascript"></script>
+<%- include("footer") -%>
