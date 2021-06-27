@@ -33,9 +33,11 @@ navigator.mediaDevices.getUserMedia({
       });
   });
 
-  socket.on("user-connected", function(userId) {
-    connectToNewUser(userId,stream);
-  });
+  socket.on('user-connected', userId => {
+  console.log('New User Connected: ' + userId)
+  const fc = () => connectToNewUser(userId, stream)
+  timerid = setTimeout(fc, 2500)
+  })
 
 });
 
