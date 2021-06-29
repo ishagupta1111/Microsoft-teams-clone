@@ -89,8 +89,8 @@ function muteUnmute() {
     myStream.getAudioTracks()[0].enabled = false;
     setUnmuteButton();
   }else { //mute it (set mute to true)
-    myStream.getAudioTracks()[0].enabled = true;
     setMuteButton();
+    myStream.getAudioTracks()[0].enabled = true;
   }
 }
 
@@ -99,7 +99,7 @@ function setMuteButton() {
   document.querySelector(".mute-button").innerHTML = html;
 }
 
-function setUnMuteButton() {
+function setUnmuteButton() {
   const html = '<i class="unmute fas fa-microphone-slash"></i><span>Unmute</span>'
   document.querySelector(".mute-button").innerHTML = html;
 }
