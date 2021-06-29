@@ -94,12 +94,12 @@ function muteUnmute() {
   }
 }
 
-function setUnmuteButton() {
+function setMuteButton() {
   const html = '<i class="fas fa-microphone"></i><span>Mute</span>'
   document.querySelector(".mute-button").innerHTML = html;
 }
 
-function setMuteButton() {
+function setUnMuteButton() {
   const html = '<i class="unmute fas fa-microphone-slash"></i><span>Unmute</span>'
   document.querySelector(".mute-button").innerHTML = html;
 }
