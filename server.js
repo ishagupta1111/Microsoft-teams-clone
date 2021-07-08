@@ -55,7 +55,7 @@ io.on("connection", function(socket){
   });
 
   socket.on("disconnect", function() {
-    io.emit("message", formatMessage("Bot","A user has left the chat"));
+    io.emit("message", formatMessage("Bot",`${user.username} has left the chat`));
   });
 
   socket.on("chatMessage",function(msg,username) {
