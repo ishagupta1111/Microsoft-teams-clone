@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const server = require("http").Server(app);//added this because socket.io expects access to http server
 const io = require("socket.io")(server);
 const formatMessage = require("./utils/messages");
-const {userJoin,getCurrentUser} = require("./utils/users");
+const {userJoin,getCurrentUser,userLeft} = require("./utils/users");
 const { uuid } = require("uuidv4");//generate multiple room ids
 const {ExpressPeerServer} = require("peer");
 const peerServer = ExpressPeerServer(server, {
@@ -55,7 +55,10 @@ io.on("connection", function(socket){
   });
 
   socket.on("disconnect", function() {
-    io.emit("message", formatMessage("Bot",`${user.username} has left the chat`));
+    const user = userLeft(socket.id);
+    if(user) {
+      io.emit("message", formatMessage("Bot",`${user.username} has left the chat`));
+    }
   });
 
   socket.on("chatMessage",function(msg,username) {

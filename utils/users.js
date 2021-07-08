@@ -13,7 +13,13 @@ function getCurrentUser(id) {
   return users.find(user => user.id === id);
 }
 
+function userLeft(userid) {
+    const idx = users.findIndex(user => user.id == userid);
+    if (idx !== -1)
+      return users.splice(idx, 1)[0];
+}
 module.exports = {
   userJoin,
-  getCurrentUser
+  getCurrentUser,
+  userLeft
 };
