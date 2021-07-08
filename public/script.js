@@ -2,7 +2,7 @@ const socket = io("/");
 const videoWrapper = document.getElementById("video-wrapper");
 const myVideo = document.createElement("video");
 myVideo.muted = true;
-
+const peers = {};
 let peer = null;
 
 let myStream;
@@ -31,14 +31,20 @@ navigator.mediaDevices.getUserMedia({
       call.on("stream",function(userVideoStream){
         addVideoStream(video,userVideoStream);
       });
+
   });
 
   socket.on('user-connected', userId => {
-  console.log('New User Connected: ' + userId)
-  const fc = () => connectToNewUser(userId, stream)
-  timerid = setTimeout(fc, 2500)
-  })
+    console.log('New User Connected: ' + userId)
+    const fc = () => connectToNewUser(userId, stream)
+    timerid = setTimeout(fc, 2500)
+  });
 
+});
+
+socket.on("user-disconnected", function(userId) {
+  if(peers[userId])
+    peers[userId].close();
 });
 
 
@@ -48,6 +54,12 @@ function connectToNewUser(userId,stream) {
   call.on("stream",function(userVideoStream){ //recieving that users stream
     addVideoStream(video,userVideoStream); // and adding that stream
   });
+
+  peers[userId] = call;
+  call.on("close",function() {
+    video.remove();
+  });
+
 }
 
 function addVideoStream(video, stream) {
@@ -59,7 +71,10 @@ function addVideoStream(video, stream) {
   videoWrapper.append(video);
 }
 
-//chat functionality
+//chat functionality in meeting
+const name = prompt("What is your name :");
+socket.emit("new-user",name);
+
 let mssg = $("input");
 console.log(mssg);
 
@@ -73,7 +88,7 @@ $("html").keydown(function(key) {
 
 socket.on("createMessage",function(newmessage) { //coming from server mssg
   console.log(newmessage);
-  $('ul').append('<li class = "message"><b>user</b></br>' + newmessage + '</li>');
+  $('ul').append('<li class = "message"><b>' + newmessage.name + '</b></br>' + newmessage.message + '</li>');
   scrollToBottom();
 });
 
@@ -81,6 +96,8 @@ function scrollToBottom() {
   let e = $('.chat-window');
   e.scrollTop(e.prop("scrollHeight"));
 }
+
+
 
 //mute functionality
 function muteUnmute() {
@@ -125,3 +142,15 @@ function setUnplayVideoButton() {
   const html = '<i class="fas fa-video"></i><span>Stop Video</span>'
   document.querySelector(".video-button").innerHTML = html;
 }
+
+
+
+//disconnect
+function leaveMeeting() {
+  socket.emit("leave-meeting-disconnected");
+  location.assign("/");
+}
+
+
+
+//char roomId
