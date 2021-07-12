@@ -70,7 +70,6 @@ io.on("connection", function(socket){
         users : getRoomUsers(user.roomId)
       });
     }
-
   });
 
   socket.on("chatMessage",function(msg,username) {

@@ -76,18 +76,15 @@ const name = prompt("What is your name :");
 socket.emit("new-user",name);
 
 let mssg = $("input");
-console.log(mssg);
 
 $("html").keydown(function(key) {
   if(key.which == 13 && mssg.val().length !==0){ //13 -> code of enter (if we press enter then event will occur)
-    console.log(mssg.val());
     socket.emit("message",mssg.val());
     mssg.val('');//after pressing enter we want message to be erased from input box
   }
 });
 
 socket.on("createMessage",function(newmessage) { //coming from server mssg
-  console.log(newmessage);
   $('ul').append('<li class = "message"><b>' + newmessage.name + '</b></br>' + newmessage.message + '</li>');
   scrollToBottom();
 });
