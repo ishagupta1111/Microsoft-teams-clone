@@ -1,10 +1,19 @@
 const chatForm = document.getElementById("chat-form");
 const chatMessages = document.querySelector(".chat-messages");
+const roomName = document.getElementById("room-name");
+const usersList = document.getElementById("users");
 const socket = io();
 
 console.log(username);
 
 socket.emit("joinRoom",username,roomId);
+
+//get users and roomId
+socket.on("roomUsers",({roomId,users}) => {
+  OutputRoomName(roomId);
+  OutputUserName(users);
+});
+
 //message given by server
 socket.on("message" ,function(message) {
   console.log(message);
@@ -41,6 +50,12 @@ socket.on("roomInfo",function(room) {
   outputMessage(room);
 });
 
-function outputRoom(room) {
-  document.getElementById("room-name").innerText = room;
+function OutputRoomName(roomId) {
+  roomName.innerText = roomId;
+}
+
+function OutputUserName(users) {
+  usersList.innerHTML = `
+  ${users.map(user => `<li>${user.username}</li>`).join(' ')}
+  `;
 }

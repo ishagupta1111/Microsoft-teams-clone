@@ -18,8 +18,13 @@ function userLeft(userid) {
     if (idx !== -1)
       return users.splice(idx, 1)[0];
 }
+
+function getRoomUsers(roomId) {
+  return users.filter(user => user.roomId === roomId);
+}
 module.exports = {
   userJoin,
   getCurrentUser,
-  userLeft
+  userLeft,
+  getRoomUsers
 };
